@@ -210,12 +210,11 @@ function removeDepartment() {
     prompt([
         {
             type: 'list',
-            name:'name',
+            name:'departmentID',
             message:'Please provide a name for the department to remove, This removes employees and roles associated with this department',
             choices: departmentForRemoval
         }])
-    .then(res =>
-        db.removeDepartment(res.departmentID))
+    .then(res => db.removeDepartment(res.departmentID))
         .then(() => console.log(`You have successfully removed a department from your organization`))
         .then(() => loadPrompts())
     });
