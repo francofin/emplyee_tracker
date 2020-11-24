@@ -2,7 +2,7 @@ USE employees;
 
 
 INSERT INTO department 
-    (name)
+    (dep_name)
 VALUES
     ('Marketing'),
     ('Data'),

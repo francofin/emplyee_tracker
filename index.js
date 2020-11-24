@@ -186,14 +186,14 @@ function viewBudget() {
 function addDepartment() {
     prompt([
         {
-            name:'name',
+            name:'dep_name',
             message:'Please provide a name for the department'
         }
     ])
     .then(res =>{
-        let name = res;
-        db.createDepartment(name)
-        .then(() => console.log(`${name} has been added to your organizational database`))
+        let dep_name = res;
+        db.createDepartment(dep_name)
+        .then(() => console.log(`${dep_name} has been added to your organizational database`))
         .then(() => loadPrompts());
     })
 }
@@ -202,8 +202,8 @@ function removeDepartment() {
     db.findAllDepartments()
     .then(([rows]) => {
         let departments = rows;
-        const departmentForRemoval = departments.map(({id, name}) => ({
-            name: name,
+        const departmentForRemoval = departments.map(({id, dep_name}) => ({
+            name: dep_name,
             value:  id
         }));
 
@@ -224,8 +224,8 @@ function addRole() {
     db.findAllDepartments()
     .then(([rows]) => {
         let departments = rows;
-        const department_choice = departments.map(({id, name}) => ({
-            name:name,
+        const department_choice = departments.map(({id, dep_name}) => ({
+            name: dep_name,
             value:id
         }));
 
@@ -257,9 +257,9 @@ function viewEmployeeByDepartment() {
     db.findAllDepartments()
     .then(([rows]) => {
         let departments = rows;
-        const departmentChoice = departments.map(({id, name}) => ({
-            name:name,
-            value:id
+        const departmentChoice = departments.map(({ id, dep_name }) => ({
+            name: dep_name,
+            value: id
         }));
  
     prompt([
@@ -268,12 +268,15 @@ function viewEmployeeByDepartment() {
             name:'departmentID',
             message:'Which department would you like to view the employees for?',
             choices: departmentChoice
-        },
+        }
     ])
     .then(res => db.findEmployeesByDepartment(res.departmentID))
         .then(([rows]) => {
             let employees = rows;
             console.log("\n");
+            if (employees.length === 0 ) {
+                console.log("This department must have been newly created and does not have any direct employees");
+            }
             console.table(employees);
         })
         .then(() => loadPrompts())
