@@ -265,13 +265,12 @@ function viewEmployeeByDepartment() {
     prompt([
         {
             type: 'list', 
-            name:'department_id',
+            name:'departmentID',
             message:'Which department would you like to view the employees for?',
             choices: departmentChoice
         },
     ])
-    .then(res =>
-        db.findEmployeesByDepartment(res.deapartmentID))
+    .then(res => db.findEmployeesByDepartment(res.departmentID))
         .then(([rows]) => {
             let employees = rows;
             console.log("\n");
@@ -355,7 +354,7 @@ function addEmployee() {
             managerChoice.unshift({name: "None", value: null});
             prompt({
                 type:'list',
-                nmae:'mamagerID',
+                name:'managerID',
                 message: 'Who is the employee manager?',
                 choices: managerChoice
             })
